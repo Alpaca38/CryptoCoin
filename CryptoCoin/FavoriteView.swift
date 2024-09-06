@@ -9,11 +9,7 @@ import SwiftUI
 
 struct FavoriteView: View {
     @Binding var likedCoinIDs: [String]
-    @State private var list: MarketResponse = [
-        MarketItem(id: "1", name: "", symbol: "", image: "", currentPrice: 0, priceChangePercentage24h: 0, low24h: 0, high24h: 0, ath: 0, athDate: "", atl: 0, atlDate: "", lastUpdated: "", sparklineIn7d: SparkLine(price: [])),
-        MarketItem(id: "2", name: "", symbol: "", image: "", currentPrice: 0, priceChangePercentage24h: 0, low24h: 0, high24h: 0, ath: 0, athDate: "", atl: 0, atlDate: "", lastUpdated: "", sparklineIn7d: SparkLine(price: [])),
-        MarketItem(id: "3", name: "", symbol: "", image: "", currentPrice: 0, priceChangePercentage24h: 0, low24h: 0, high24h: 0, ath: 0, athDate: "", atl: 0, atlDate: "", lastUpdated: "", sparklineIn7d: SparkLine(price: []))
-    ]
+    @State private var list: MarketResponse = []
     
     var body: some View {
         NavigationView {
@@ -22,6 +18,26 @@ struct FavoriteView: View {
                     .padding()
             }
             .navigationTitle("Favorite Coin")
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Image(systemName: "person")
+                        .asButton {
+                            print("프로필 버튼")
+                        }
+                }
+            }
+        }
+        .task {
+            do {
+                if likedCoinIDs.isEmpty {
+                    list.removeAll()
+                } else {
+                    let result = try await CoingeckoAPI.shared.getMarketData(ids: likedCoinIDs)
+                    list = result
+                }
+            } catch {
+                print(error)
+            }
         }
     }
 }
@@ -43,16 +59,30 @@ private struct FavoriteCoinGridView: View {
         ZStack {
             RoundedRectangle(cornerRadius: 25.0)
                 .fill(.white)
-                .frame(height: 150)
+                .aspectRatio(1, contentMode: .fit)
                 .shadow(radius: 5)
             VStack {
                 HStack {
-                    Image(systemName: "person")
+                    AsyncImage(url: URL(string: item.image)) { phase in
+                        switch phase {
+                        case .empty:
+                            ProgressView()
+                        case .success(let image):
+                            image
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                        case .failure(_):
+                            Color.gray
+                        @unknown default:
+                            Color.gray
+                        }
+                    }
+                    .frame(width: 45, height: 45)
                     
                     VStack(alignment: .leading) {
-                        Text("bitcoin")
+                        Text(item.name)
                             .bold()
-                        Text("BTC")
+                        Text(item.capitalSymbol)
                             .font(.caption)
                             .foregroundStyle(.gray)
                     }
@@ -60,15 +90,15 @@ private struct FavoriteCoinGridView: View {
                 }
                 Spacer()
                 VStack(alignment: .trailing) {
-                    Text(52413424.formatted(.currency(code: "krw")))
+                    Text(item.currentPrice.formatted(.currency(code: "krw")))
                         .bold()
-                    Text(String(0.64) + "%")
+                    Text(item.priceChange)
                         .font(.caption)
                         .bold()
-                        .foregroundStyle(.red)
+                        .foregroundStyle(item.priceChangePercentage24h.isLess(than: 0) ? .blue : .red)
                         .padding(.vertical, 4)
                         .padding(.horizontal, 10)
-                        .background(.red.opacity(0.5))
+                        .background(item.priceChangePercentage24h.isLess(than: 0) ? .blue.opacity(0.5) : .red.opacity(0.5))
                         .clipShape(RoundedRectangle(cornerRadius: 5))
                 }
                 .frame(maxWidth: .infinity, alignment: .trailing)

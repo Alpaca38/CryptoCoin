@@ -25,6 +25,9 @@ struct SearchView: View {
                 .toolbar {
                     ToolbarItem(placement: .topBarTrailing) {
                         Image(systemName: "person")
+                            .asButton {
+                                print("프로필 버튼")
+                            }
                     }
                 }
         }

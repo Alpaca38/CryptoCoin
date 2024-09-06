@@ -21,7 +21,15 @@ struct MarketItem: Decodable {
     let atl: Double
     let atlDate: String
     let lastUpdated: String
-    let sparklineIn7d: SparkLine
+    let sparklineIn7d: SparkLine?
+    
+    var priceChange: String {
+        priceChangePercentage24h.formatted(.number.precision(.fractionLength(2))) + "%"
+    }
+    
+    var capitalSymbol: String {
+        symbol.uppercased()
+    }
     
     private enum CodingKeys: String, CodingKey {
         case id, name, symbol, image

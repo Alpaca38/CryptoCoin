@@ -28,4 +28,22 @@ final class CoingeckoAPI {
             }
         }.resume()
     }
+    
+    func getMarketData(ids: [String], sparkline: String = "false") async throws -> MarketResponse {
+        var urlComponents = URLComponents(string: APIKey.baseURL + "coins/markets")!
+        urlComponents.queryItems = [
+            URLQueryItem(name: "vs_currency", value: "krw"),
+            URLQueryItem(name: "ids", value: ids.joined(separator: ",")),
+            URLQueryItem(name: "sparkline", value: sparkline)
+        ]
+        
+        guard let url = urlComponents.url else {
+               throw URLError(.badURL)
+        }
+        
+        let (data, _) = try await URLSession.shared.data(from: url) // 응답이 올때까지 기다림
+        let decodedData = try JSONDecoder().decode(MarketResponse.self, from: data)
+        
+        return decodedData
+    }
 }
