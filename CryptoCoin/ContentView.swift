@@ -8,17 +8,25 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State private var likedCoinIDs: [String] = []
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        TabView {
+            SearchView(likedCoinIDs: $likedCoinIDs)
+                .tabItem {
+                    Image(systemName: "magnifyingglass")
+                }
+            
+            FavoriteView(likedCoinIDs: $likedCoinIDs)
+                .tabItem {
+                    Image(systemName: "folder")
+                }
         }
-        .padding()
+        .tint(.purple)
     }
 }
 
-#Preview {
-    ContentView()
-}
+
+//#Preview {
+//    ContentView()
+//}
