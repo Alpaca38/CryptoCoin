@@ -24,7 +24,8 @@ struct MarketItem: Decodable {
     let sparklineIn7d: SparkLine?
     
     var priceChange: String {
-        priceChangePercentage24h.formatted(.number.precision(.fractionLength(2))) + "%"
+        let result = priceChangePercentage24h.isLess(than: 0) ? priceChangePercentage24h.formatted(.number.precision(.fractionLength(2))) + "%" : "+" + priceChangePercentage24h.formatted(.number.precision(.fractionLength(2))) + "%"
+        return result
     }
     
     var capitalSymbol: String {
