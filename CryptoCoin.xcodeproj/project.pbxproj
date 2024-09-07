@@ -23,6 +23,7 @@
 		D15D90C32C8C117A002C4D1F /* DateFormatManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D15D90C22C8C117A002C4D1F /* DateFormatManager.swift */; };
 		D15D90C52C8C16F6002C4D1F /* NavigationLazyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D15D90C42C8C16F6002C4D1F /* NavigationLazyView.swift */; };
 		D15D90C72C8C24AA002C4D1F /* TrendingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D15D90C62C8C24AA002C4D1F /* TrendingView.swift */; };
+		D15D90C92C8CC608002C4D1F /* TrendingResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D15D90C82C8CC608002C4D1F /* TrendingResponse.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -43,6 +44,7 @@
 		D15D90C22C8C117A002C4D1F /* DateFormatManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatManager.swift; sourceTree = "<group>"; };
 		D15D90C42C8C16F6002C4D1F /* NavigationLazyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationLazyView.swift; sourceTree = "<group>"; };
 		D15D90C62C8C24AA002C4D1F /* TrendingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendingView.swift; sourceTree = "<group>"; };
+		D15D90C82C8CC608002C4D1F /* TrendingResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendingResponse.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,6 +89,7 @@
 				D15D90B42C8AC097002C4D1F /* CoingeckoAPI.swift */,
 				D15D90B62C8AC1BD002C4D1F /* SearchResponse.swift */,
 				D15D90BE2C8AE1DB002C4D1F /* MarketResponse.swift */,
+				D15D90C82C8CC608002C4D1F /* TrendingResponse.swift */,
 				D15D90B82C8ACDAF002C4D1F /* ButtonWrapper.swift */,
 				D15D90C22C8C117A002C4D1F /* DateFormatManager.swift */,
 				D15D90A22C8ABEAF002C4D1F /* Assets.xcassets */,
@@ -185,6 +188,7 @@
 				D15D90BB2C8AD0ED002C4D1F /* SearchView.swift in Sources */,
 				D15D90BF2C8AE1DB002C4D1F /* MarketResponse.swift in Sources */,
 				D15D90B92C8ACDAF002C4D1F /* ButtonWrapper.swift in Sources */,
+				D15D90C92C8CC608002C4D1F /* TrendingResponse.swift in Sources */,
 				D15D90B32C8ABF47002C4D1F /* APIKey.swift in Sources */,
 				D15D909F2C8ABEAE002C4D1F /* CryptoCoinApp.swift in Sources */,
 			);

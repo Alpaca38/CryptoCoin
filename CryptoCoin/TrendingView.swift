@@ -10,6 +10,7 @@ import SwiftUI
 struct TrendingView: View {
     @Binding var likedCoinIDs: [String]
     @State private var favoriteList: MarketResponse = []
+    @State private var trendingList: TrendingResponse = TrendingResponse(coins: [], nfts: [])
     
     var body: some View {
         NavigationView {
@@ -35,6 +36,13 @@ struct TrendingView: View {
             } catch {
                 print(error)
             }
+            
+            do {
+                let result = try await CoingeckoAPI.shared.getTrendingCrypto()
+                trendingList = result
+            } catch {
+                print(error)
+            }
         }
     }
     
@@ -44,8 +52,8 @@ struct TrendingView: View {
                 if favoriteList.count >= 2 {
                     FavoriteSection(list: favoriteList, likedCoinIDs: $likedCoinIDs)
                 }
-                CoinSection()
-                NFTSection()
+                CoinSection(list: trendingList, likedCoinIDs: $likedCoinIDs)
+                NFTSection(list: trendingList, likedCoinIDs: $likedCoinIDs)
             }
         }
     }
@@ -103,7 +111,8 @@ private struct FavoriteSection: View {
 }
 
 private struct CoinSection: View {
-    let item = MarketItem(id: "a", name: "Bitcoin", symbol: "btc", image: "", currentPrice: 0, priceChangePercentage24h: 0, low24h: 0, high24h: 0, ath: 0, athDate: "", atl: 0, atlDate: "", lastUpdated: "", sparklineIn7d: nil)
+    let list: TrendingResponse
+    @Binding var likedCoinIDs: [String]
     
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
@@ -111,7 +120,7 @@ private struct CoinSection: View {
                 .bold()
                 .font(.title)
             ScrollView(.horizontal) {
-                CoinGridView()
+                CoinGridView(list: list, category: .coin, likedCoinIDs: $likedCoinIDs)
             }
             .scrollIndicators(.hidden)
         }
@@ -121,7 +130,8 @@ private struct CoinSection: View {
 }
 
 private struct NFTSection: View {
-    let item = MarketItem(id: "a", name: "Bitcoin", symbol: "btc", image: "", currentPrice: 0, priceChangePercentage24h: 0, low24h: 0, high24h: 0, ath: 0, athDate: "", atl: 0, atlDate: "", lastUpdated: "", sparklineIn7d: nil)
+    let list: TrendingResponse
+    @Binding var likedCoinIDs: [String]
     
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
@@ -129,7 +139,7 @@ private struct NFTSection: View {
                 .bold()
                 .font(.title)
             ScrollView(.horizontal) {
-                CoinGridView()
+                CoinGridView(list: list, category: .nft, likedCoinIDs: $likedCoinIDs)
             }
             .scrollIndicators(.hidden)
         }
@@ -139,33 +149,130 @@ private struct NFTSection: View {
 }
 
 struct CoinGridView: View {
-    let item = MarketItem(id: "a", name: "Bitcoin", symbol: "btc", image: "", currentPrice: 0, priceChangePercentage24h: 0, low24h: 0, high24h: 0, ath: 0, athDate: "", atl: 0, atlDate: "", lastUpdated: "", sparklineIn7d: nil)
+    enum Category {
+        case coin
+        case nft
+    }
+    
+    let list: TrendingResponse
+    let category: Category
+    
+    @Binding var likedCoinIDs: [String]
     
     var row: [GridItem] = Array(repeating: .init(.flexible()), count: 3)
     
     var body: some View {
         LazyHGrid(rows: row, spacing: 20, content: {
-            ForEach(0..<15) { item in
-                rowView()
+            switch category {
+            case .coin:
+                ForEach(Array(list.coins.enumerated()), id: \.element) { index, item in
+                    NavigationLink {
+                        ChartView(likedCoinIDs: $likedCoinIDs, id: item.item.id)
+                    } label: {
+                        rowView(item.item, index + 1)
+                    }
+                }
+            case .nft:
+                ForEach(Array(list.nfts.enumerated()), id: \.element) { index, item in
+                    rowView(item, index + 1)
+                }
             }
         })
     }
     
-    func rowView() -> some View {
+    func rowView(_ item: TrendingCoinItem, _ index: Int) -> some View {
         HStack {
-            Text("1")
+            Text("\(index)")
                 .bold()
                 .font(.title2)
-            CoinSymbolView(item: item)
-                .padding(.trailing, 100)
+                .foregroundStyle(.black)
+            
+            HStack {
+                AsyncImage(url: URL(string: item.small)) { phase in
+                    switch phase {
+                    case .empty:
+                        ProgressView()
+                    case .success(let image):
+                        image
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                    case .failure(_):
+                        Color.gray
+                    @unknown default:
+                        Color.gray
+                    }
+                }
+                .frame(width: 40, height: 40)
+                
+                VStack(alignment: .leading) {
+                    Text(item.name)
+                        .bold()
+                        .foregroundStyle(.black)
+                    Text(item.capitalSymbol)
+                        .font(.caption)
+                        .foregroundStyle(.gray)
+                }
+                Spacer()
+            }
+            .padding(.trailing, 50)
+            
             VStack(alignment: .trailing) {
-                Text(item.currentPrice.formatted(.currency(code: "krw")))
+                Text(item.data.price.formatted(.currency(code: "usd")))
                     .bold()
                     .foregroundStyle(.black)
-                Text(item.priceChange)
+                Text(item.data.priceChangePercentage24h.priceChange)
                     .font(.caption)
                     .bold()
-                    .foregroundStyle(item.priceChangePercentage24h.isLess(than: 0) ? .blue : .red)
+                    .foregroundStyle(item.data.priceChangePercentage24h.krw.isLess(than: 0) ? .blue : .red)
+            }
+        }
+        .padding(.vertical, 10)
+    }
+    
+    func rowView(_ item: TrendingNFTItem, _ index: Int) -> some View {
+        HStack {
+            Text("\(index)")
+                .bold()
+                .font(.title2)
+                .foregroundStyle(.black)
+            
+            HStack {
+                AsyncImage(url: URL(string: item.thumb)) { phase in
+                    switch phase {
+                    case .empty:
+                        ProgressView()
+                    case .success(let image):
+                        image
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                    case .failure(_):
+                        Color.gray
+                    @unknown default:
+                        Color.gray
+                    }
+                }
+                .frame(width: 40, height: 40)
+                
+                VStack(alignment: .leading) {
+                    Text(item.name)
+                        .bold()
+                        .foregroundStyle(.black)
+                    Text(item.capitalSymbol)
+                        .font(.caption)
+                        .foregroundStyle(.gray)
+                }
+                Spacer()
+            }
+            .padding(.trailing, 50)
+            
+            VStack(alignment: .trailing) {
+                Text(item.data.floorPrice)
+                    .bold()
+                    .foregroundStyle(.black)
+                Text(item.data.priceChange)
+                    .font(.caption)
+                    .bold()
+                    .foregroundStyle(Double(item.data.floorPriceInUsd24hPercentageChange)!.isLess(than: 0) ? .blue : .red)
             }
         }
         .padding(.vertical, 10)

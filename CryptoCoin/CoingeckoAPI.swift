@@ -46,4 +46,13 @@ final class CoingeckoAPI {
         
         return decodedData
     }
+    
+    func getTrendingCrypto() async throws -> TrendingResponse {
+        let url = URL(string: APIKey.baseURL + "search/trending")!
+        
+        let (data, _) = try await URLSession.shared.data(from: url)
+        let decodedData = try JSONDecoder().decode(TrendingResponse.self, from: data)
+        
+        return decodedData
+    }
 }
