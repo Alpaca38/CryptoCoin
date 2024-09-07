@@ -67,33 +67,7 @@ private struct FavoriteCoinGridView: View {
                 .aspectRatio(1, contentMode: .fit)
                 .shadow(radius: 5)
             VStack {
-                HStack {
-                    AsyncImage(url: URL(string: item.image)) { phase in
-                        switch phase {
-                        case .empty:
-                            ProgressView()
-                        case .success(let image):
-                            image
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                        case .failure(_):
-                            Color.gray
-                        @unknown default:
-                            Color.gray
-                        }
-                    }
-                    .frame(width: 45, height: 45)
-                    
-                    VStack(alignment: .leading) {
-                        Text(item.name)
-                            .bold()
-                            .foregroundStyle(.black)
-                        Text(item.capitalSymbol)
-                            .font(.caption)
-                            .foregroundStyle(.gray)
-                    }
-                    Spacer()
-                }
+                CoinSymbolView(item: item)
                 Spacer()
                 VStack(alignment: .trailing) {
                     Text(item.currentPrice.formatted(.currency(code: "krw")))
@@ -111,6 +85,40 @@ private struct FavoriteCoinGridView: View {
                 .frame(maxWidth: .infinity, alignment: .trailing)
             }
             .padding()
+        }
+    }
+}
+
+struct CoinSymbolView: View {
+    let item: MarketItem
+    
+    var body: some View {
+        HStack {
+            AsyncImage(url: URL(string: item.image)) { phase in
+                switch phase {
+                case .empty:
+                    ProgressView()
+                case .success(let image):
+                    image
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                case .failure(_):
+                    Color.gray
+                @unknown default:
+                    Color.gray
+                }
+            }
+            .frame(width: 45, height: 45)
+            
+            VStack(alignment: .leading) {
+                Text(item.name)
+                    .bold()
+                    .foregroundStyle(.black)
+                Text(item.capitalSymbol)
+                    .font(.caption)
+                    .foregroundStyle(.gray)
+            }
+            Spacer()
         }
     }
 }

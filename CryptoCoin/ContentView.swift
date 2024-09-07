@@ -12,6 +12,11 @@ struct ContentView: View {
     
     var body: some View {
         TabView {
+            TrendingView()
+                .tabItem {
+                    Image(systemName: "chart.line.uptrend.xyaxis")
+                }
+            
             SearchView(likedCoinIDs: $likedCoinIDs)
                 .tabItem {
                     Image(systemName: "magnifyingglass")
