@@ -12,7 +12,7 @@ struct ContentView: View {
     
     var body: some View {
         TabView {
-            TrendingView()
+            TrendingView(likedCoinIDs: $likedCoinIDs)
                 .tabItem {
                     Image(systemName: "chart.line.uptrend.xyaxis")
                 }
