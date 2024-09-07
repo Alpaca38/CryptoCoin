@@ -32,6 +32,10 @@ struct MarketItem: Decodable {
         symbol.uppercased()
     }
     
+    var lastUpdatedText: String {
+        DateFormatManager.shared.toDateTime(updatedAt: lastUpdated) + " 업데이트"
+    }
+    
     private enum CodingKeys: String, CodingKey {
         case id, name, symbol, image
         case currentPrice = "current_price"

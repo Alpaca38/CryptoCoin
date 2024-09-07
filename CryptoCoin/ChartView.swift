@@ -9,7 +9,7 @@ import SwiftUI
 import Charts
 
 struct ChartView: View {
-    @State private var data: MarketItem = MarketItem(id: "a", name: "Solana", symbol: "", image: "", currentPrice: 23432342, priceChangePercentage24h: 3.22, low24h: 43234, high24h: 24422342, ath: 34423422, athDate: "", atl: 2333, atlDate: "", lastUpdated: "2024-04-07T16:49:31.736Z", sparklineIn7d: SparkLine(price: [
+    @State private var data: MarketItem = MarketItem(id: "a", name: "Solana", symbol: "", image: "", currentPrice: 23432342, priceChangePercentage24h: 3.22, low24h: 43234, high24h: 24422342, ath: 34423422, athDate: "", atl: 2333, atlDate: "", lastUpdated: "2024-04-20T4:49:31.736Z", sparklineIn7d: SparkLine(price: [
         59146.24979875298,
         59271.74724991423,
         59213.551753395084,
@@ -265,7 +265,7 @@ struct ChartView: View {
     }
     
     func lastUpdateView() -> some View {
-        Text("2/21 11:53:50 업데이트")
+        Text(data.lastUpdatedText)
             .frame(maxWidth: .infinity, alignment: .trailing)
     }
 }
