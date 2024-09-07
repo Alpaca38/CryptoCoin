@@ -36,8 +36,12 @@ struct SearchView: View {
     func coinListView() -> some View {
         ScrollView {
             LazyVStack {
-                ForEach($list, id: \.id) { $item in
-                    RowView(item: $item, likedCoinIDs: $likedCoinIDs)
+                ForEach(list, id: \.id) { item in
+                    NavigationLink {
+                        NavigationLazyView(ChartView(likedCoinIDs: $likedCoinIDs, id: item.id))
+                    } label: {
+                        RowView(item: item, likedCoinIDs: $likedCoinIDs)
+                    }
                 }
             }
         }
@@ -45,7 +49,7 @@ struct SearchView: View {
 }
 
 private struct RowView: View {
-    @Binding var item: Coin
+    let item: Coin
     @Binding var likedCoinIDs: [String]
     
     var body: some View {

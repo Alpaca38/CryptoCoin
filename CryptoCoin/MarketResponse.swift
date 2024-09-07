@@ -55,4 +55,12 @@ typealias MarketResponse = [MarketItem]
 
 struct SparkLine: Decodable {
     let price: [Double]
+    
+    var lowPrice: Double {
+        price.min() ?? 0
+    }
+    
+    var highPrice: Double {
+        price.max() ?? 0
+    }
 }

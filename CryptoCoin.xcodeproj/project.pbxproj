@@ -21,6 +21,7 @@
 		D15D90BF2C8AE1DB002C4D1F /* MarketResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D15D90BE2C8AE1DB002C4D1F /* MarketResponse.swift */; };
 		D15D90C12C8BF223002C4D1F /* ChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D15D90C02C8BF223002C4D1F /* ChartView.swift */; };
 		D15D90C32C8C117A002C4D1F /* DateFormatManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D15D90C22C8C117A002C4D1F /* DateFormatManager.swift */; };
+		D15D90C52C8C16F6002C4D1F /* NavigationLazyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D15D90C42C8C16F6002C4D1F /* NavigationLazyView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,6 +40,7 @@
 		D15D90BE2C8AE1DB002C4D1F /* MarketResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketResponse.swift; sourceTree = "<group>"; };
 		D15D90C02C8BF223002C4D1F /* ChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartView.swift; sourceTree = "<group>"; };
 		D15D90C22C8C117A002C4D1F /* DateFormatManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatManager.swift; sourceTree = "<group>"; };
+		D15D90C42C8C16F6002C4D1F /* NavigationLazyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationLazyView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,6 +79,7 @@
 				D15D90BA2C8AD0ED002C4D1F /* SearchView.swift */,
 				D15D90BC2C8AD533002C4D1F /* FavoriteView.swift */,
 				D15D90C02C8BF223002C4D1F /* ChartView.swift */,
+				D15D90C42C8C16F6002C4D1F /* NavigationLazyView.swift */,
 				D15D90B22C8ABF47002C4D1F /* APIKey.swift */,
 				D15D90B42C8AC097002C4D1F /* CoingeckoAPI.swift */,
 				D15D90B62C8AC1BD002C4D1F /* SearchResponse.swift */,
@@ -170,6 +173,7 @@
 			files = (
 				D15D90C32C8C117A002C4D1F /* DateFormatManager.swift in Sources */,
 				D15D90BD2C8AD533002C4D1F /* FavoriteView.swift in Sources */,
+				D15D90C52C8C16F6002C4D1F /* NavigationLazyView.swift in Sources */,
 				D15D90A12C8ABEAE002C4D1F /* ContentView.swift in Sources */,
 				D15D90B72C8AC1BD002C4D1F /* SearchResponse.swift in Sources */,
 				D15D90C12C8BF223002C4D1F /* ChartView.swift in Sources */,
