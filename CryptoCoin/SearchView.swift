@@ -73,6 +73,7 @@ private struct RowView: View {
             VStack(alignment: .leading) {
                 Text(item.name)
                     .bold()
+                    .foregroundStyle(.black)
                 Text(item.symbol)
                     .font(.caption)
                     .foregroundStyle(.gray)

@@ -14,7 +14,7 @@ struct FavoriteView: View {
     var body: some View {
         NavigationView {
             ScrollView {
-                FavoriteCoinGridView(list: $list)
+                FavoriteCoinGridView(list: $list, likedCoinIDs: $likedCoinIDs)
                     .padding()
             }
             .navigationTitle("Favorite Coin")
@@ -44,13 +44,18 @@ struct FavoriteView: View {
 
 private struct FavoriteCoinGridView: View {
     @Binding var list: MarketResponse
+    @Binding var likedCoinIDs: [String]
     
     var columns: [GridItem] = Array(repeating: .init(.flexible()), count: 2)
     
     var body: some View {
         LazyVGrid(columns: columns, content: {
             ForEach(list, id: \.id) { item in
-                coinItem(item)
+                NavigationLink {
+                    NavigationLazyView(ChartView(likedCoinIDs: $likedCoinIDs, id: item.id))
+                } label: {
+                    coinItem(item)
+                }
             }
         })
     }
@@ -82,6 +87,7 @@ private struct FavoriteCoinGridView: View {
                     VStack(alignment: .leading) {
                         Text(item.name)
                             .bold()
+                            .foregroundStyle(.black)
                         Text(item.capitalSymbol)
                             .font(.caption)
                             .foregroundStyle(.gray)
@@ -92,6 +98,7 @@ private struct FavoriteCoinGridView: View {
                 VStack(alignment: .trailing) {
                     Text(item.currentPrice.formatted(.currency(code: "krw")))
                         .bold()
+                        .foregroundStyle(.black)
                     Text(item.priceChange)
                         .font(.caption)
                         .bold()
