@@ -47,6 +47,7 @@
 		D15D90C62C8C24AA002C4D1F /* TrendingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendingView.swift; sourceTree = "<group>"; };
 		D15D90C82C8CC608002C4D1F /* TrendingResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendingResponse.swift; sourceTree = "<group>"; };
 		D15D90CA2C8D562F002C4D1F /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
+		D15D90CC2C8DB7BC002C4D1F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,6 +81,7 @@
 		D15D909D2C8ABEAE002C4D1F /* CryptoCoin */ = {
 			isa = PBXGroup;
 			children = (
+				D15D90CC2C8DB7BC002C4D1F /* Info.plist */,
 				D15D909E2C8ABEAE002C4D1F /* CryptoCoinApp.swift */,
 				D15D90A02C8ABEAE002C4D1F /* ContentView.swift */,
 				D15D90C62C8C24AA002C4D1F /* TrendingView.swift */,
@@ -330,6 +332,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"CryptoCoin/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = CryptoCoin/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -363,6 +366,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"CryptoCoin/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = CryptoCoin/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

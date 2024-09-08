@@ -6,8 +6,10 @@
 //
 
 import Foundation
+import CoreTransferable
+import UniformTypeIdentifiers
 
-struct MarketItem: Decodable, Hashable {
+struct MarketItem: Codable, Hashable, Transferable {
     let id: String
     let name: String
     let symbol: String
@@ -22,6 +24,10 @@ struct MarketItem: Decodable, Hashable {
     let atlDate: String
     let lastUpdated: String
     let sparklineIn7d: SparkLine?
+    
+    static var transferRepresentation: some TransferRepresentation {
+        CodableRepresentation(contentType: .marketItem)
+    }
     
     var priceChange: String {
         let result = priceChangePercentage24h.isLess(than: 0) ? priceChangePercentage24h.formatted(.number.precision(.fractionLength(2))) + "%" : "+" + priceChangePercentage24h.formatted(.number.precision(.fractionLength(2))) + "%"
@@ -53,7 +59,7 @@ struct MarketItem: Decodable, Hashable {
 
 typealias MarketResponse = [MarketItem]
 
-struct SparkLine: Decodable, Hashable {
+struct SparkLine: Codable, Hashable {
     let price: [Double]
     
     var lowPrice: Double {
@@ -63,4 +69,8 @@ struct SparkLine: Decodable, Hashable {
     var highPrice: Double {
         price.max() ?? 0
     }
+}
+
+extension UTType {
+    static let marketItem = UTType(exportedAs: "com.jo.marketItem")
 }

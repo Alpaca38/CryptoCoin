@@ -39,6 +39,18 @@ struct FavoriteView: View {
                 print(error)
             }
         }
+        .refreshable {
+            do {
+                if likedCoinIDs.isEmpty {
+                    list.removeAll()
+                } else {
+                    let result = try await CoingeckoAPI.shared.getMarketData(ids: likedCoinIDs)
+                    list = result
+                }
+            } catch {
+                print(error)
+            }
+        }
     }
 }
 
@@ -55,6 +67,19 @@ private struct FavoriteCoinGridView: View {
                     NavigationLazyView(ChartView(likedCoinIDs: $likedCoinIDs, id: item.id))
                 } label: {
                     coinItem(item)
+                }
+                .draggable(item)
+                .dropDestination(for: MarketItem.self) { items, location in
+                    guard let droppedItem = items.first else { return false }
+                    
+                    if let sourceIndex = list.firstIndex(where: { $0.id == droppedItem.id }),
+                       let destinationIndex = list.firstIndex(where: { $0.id == item.id }) {
+                        withAnimation {
+                            let draggedItem = list.remove(at: sourceIndex)
+                            list.insert(draggedItem, at: destinationIndex)
+                        }
+                    }
+                    return true
                 }
             }
         })
