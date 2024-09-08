@@ -204,34 +204,32 @@ private struct CoinGridView: View {
                 .font(.title2)
                 .foregroundStyle(.black)
             
-            HStack {
-                AsyncImage(url: URL(string: item.small)) { phase in
-                    switch phase {
-                    case .empty:
-                        ProgressView()
-                    case .success(let image):
-                        image
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                    case .failure(_):
-                        Color.gray
-                    @unknown default:
-                        Color.gray
-                    }
+            AsyncImage(url: URL(string: item.small)) { phase in
+                switch phase {
+                case .empty:
+                    ProgressView()
+                case .success(let image):
+                    image
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                case .failure(_):
+                    Color.gray
+                @unknown default:
+                    Color.gray
                 }
-                .frame(width: 40, height: 40)
-                
-                VStack(alignment: .leading) {
-                    Text(item.name)
-                        .bold()
-                        .foregroundStyle(.black)
-                    Text(item.capitalSymbol)
-                        .font(.caption)
-                        .foregroundStyle(.gray)
-                }
-                Spacer()
             }
-            .padding(.trailing, 50)
+            .frame(width: 40, height: 40)
+            
+            VStack(alignment: .leading) {
+                Text(item.name)
+                    .bold()
+                    .foregroundStyle(.black)
+                Text(item.capitalSymbol)
+                    .font(.caption)
+                    .foregroundStyle(.gray)
+            }
+            
+            Spacer()
             
             VStack(alignment: .trailing) {
                 Text(item.data.price.formatted(.currency(code: "usd")))
@@ -244,6 +242,7 @@ private struct CoinGridView: View {
             }
         }
         .padding(.vertical, 10)
+        .frame(width: 300)
     }
     
     func rowView(_ item: TrendingNFTItem, _ index: Int) -> some View {
@@ -253,34 +252,32 @@ private struct CoinGridView: View {
                 .font(.title2)
                 .foregroundStyle(.black)
             
-            HStack {
-                AsyncImage(url: URL(string: item.thumb)) { phase in
-                    switch phase {
-                    case .empty:
-                        ProgressView()
-                    case .success(let image):
-                        image
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                    case .failure(_):
-                        Color.gray
-                    @unknown default:
-                        Color.gray
-                    }
+            AsyncImage(url: URL(string: item.thumb)) { phase in
+                switch phase {
+                case .empty:
+                    ProgressView()
+                case .success(let image):
+                    image
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                case .failure(_):
+                    Color.gray
+                @unknown default:
+                    Color.gray
                 }
-                .frame(width: 40, height: 40)
-                
-                VStack(alignment: .leading) {
-                    Text(item.name)
-                        .bold()
-                        .foregroundStyle(.black)
-                    Text(item.capitalSymbol)
-                        .font(.caption)
-                        .foregroundStyle(.gray)
-                }
-                Spacer()
             }
-            .padding(.trailing, 50)
+            .frame(width: 40, height: 40)
+            
+            VStack(alignment: .leading) {
+                Text(item.name)
+                    .bold()
+                    .foregroundStyle(.black)
+                Text(item.capitalSymbol)
+                    .font(.caption)
+                    .foregroundStyle(.gray)
+            }
+            
+            Spacer()
             
             VStack(alignment: .trailing) {
                 Text(item.data.floorPrice)
@@ -293,6 +290,7 @@ private struct CoinGridView: View {
             }
         }
         .padding(.vertical, 10)
+        .frame(width: 300)
     }
 }
 //
