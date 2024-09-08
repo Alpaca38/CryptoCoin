@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State private var index = 0
     @State private var likedCoinIDs: [String] = []
     @StateObject private var networkMonitor = NetworkMonitor()
     
@@ -22,21 +23,24 @@ struct ContentView: View {
                 .transition(.move(edge: .top))
         }
         
-        TabView {
-            TrendingView(likedCoinIDs: $likedCoinIDs)
+        TabView(selection: $index) {
+            TrendingView(index: $index, likedCoinIDs: $likedCoinIDs)
                 .tabItem {
                     Image(systemName: "chart.line.uptrend.xyaxis")
                 }
+                .tag(0)
             
             SearchView(likedCoinIDs: $likedCoinIDs)
                 .tabItem {
                     Image(systemName: "magnifyingglass")
                 }
+                .tag(1)
             
             FavoriteView(likedCoinIDs: $likedCoinIDs)
                 .tabItem {
                     Image(systemName: "folder")
                 }
+                .tag(2)
         }
         .tint(.purple)
     }

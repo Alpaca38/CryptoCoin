@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct MarketItem: Decodable {
+struct MarketItem: Decodable, Hashable {
     let id: String
     let name: String
     let symbol: String
@@ -53,7 +53,7 @@ struct MarketItem: Decodable {
 
 typealias MarketResponse = [MarketItem]
 
-struct SparkLine: Decodable {
+struct SparkLine: Decodable, Hashable {
     let price: [Double]
     
     var lowPrice: Double {

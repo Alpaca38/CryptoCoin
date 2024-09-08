@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct TrendingView: View {
+    @Binding var index: Int
     @Binding var likedCoinIDs: [String]
     @State private var favoriteList: MarketResponse = []
     @State private var trendingList: TrendingResponse = TrendingResponse(coins: [], nfts: [])
@@ -50,7 +51,7 @@ struct TrendingView: View {
         ScrollView {
             LazyVStack(spacing: 40) {
                 if favoriteList.count >= 2 {
-                    FavoriteSection(list: favoriteList, likedCoinIDs: $likedCoinIDs)
+                    FavoriteSection(list: favoriteList, likedCoinIDs: $likedCoinIDs, index: $index)
                 }
                 CoinSection(list: trendingList, likedCoinIDs: $likedCoinIDs)
                 NFTSection(list: trendingList, likedCoinIDs: $likedCoinIDs)
@@ -62,6 +63,7 @@ struct TrendingView: View {
 private struct FavoriteSection: View {
     let list: MarketResponse
     @Binding var likedCoinIDs: [String]
+    @Binding var index: Int
     
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
@@ -70,13 +72,16 @@ private struct FavoriteSection: View {
                 .font(.title)
             ScrollView(.horizontal) {
                 LazyHStack(spacing: 15) {
-                    ForEach(list, id: \.id) { item in
-                        NavigationLink {
-                            NavigationLazyView(ChartView(likedCoinIDs: $likedCoinIDs, id: item.id))
-                        } label: {
-                            favoriteItem(item)
+                    ForEach(Array(list.reversed().enumerated()), id: \.element) { index, item in
+                        if index < 3 {
+                            NavigationLink {
+                                NavigationLazyView(ChartView(likedCoinIDs: $likedCoinIDs, id: item.id))
+                            } label: {
+                                favoriteItem(item)
+                            }
                         }
                     }
+                    moreItem()
                 }
             }
             .scrollIndicators(.hidden)
@@ -106,6 +111,18 @@ private struct FavoriteSection: View {
                 .frame(maxWidth: .infinity, alignment: .leading)
             }
             .padding()
+        }
+    }
+    
+    func moreItem() -> some View {
+        ZStack {
+            RoundedRectangle(cornerRadius: 25.0)
+                .fill(.gray.opacity(0.2))
+                .frame(width: 200, height: 160)
+            Text("더보기")
+        }
+        .asButton {
+            index = 2
         }
     }
 }
@@ -148,7 +165,7 @@ private struct NFTSection: View {
     }
 }
 
-struct CoinGridView: View {
+private struct CoinGridView: View {
     enum Category {
         case coin
         case nft
