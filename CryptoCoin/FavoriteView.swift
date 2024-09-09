@@ -28,28 +28,23 @@ struct FavoriteView: View {
             }
         }
         .task {
-            do {
-                if likedCoinIDs.isEmpty {
-                    list.removeAll()
-                } else {
-                    let result = try await CoingeckoAPI.shared.getMarketData(ids: likedCoinIDs)
-                    list = result
-                }
-            } catch {
-                print(error)
-            }
+            await fetchList()
         }
         .refreshable {
-            do {
-                if likedCoinIDs.isEmpty {
-                    list.removeAll()
-                } else {
-                    let result = try await CoingeckoAPI.shared.getMarketData(ids: likedCoinIDs)
-                    list = result
-                }
-            } catch {
-                print(error)
+            await fetchList()
+        }
+    }
+    
+    func fetchList() async {
+        do {
+            if likedCoinIDs.isEmpty {
+                list.removeAll()
+            } else {
+                let result = try await CoingeckoAPI.shared.getMarketData(ids: likedCoinIDs)
+                list = result
             }
+        } catch {
+            print(error)
         }
     }
 }

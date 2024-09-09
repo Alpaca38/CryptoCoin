@@ -70,21 +70,41 @@ private struct FavoriteSection: View {
             Text("My Favorite")
                 .bold()
                 .font(.title)
-            ScrollView(.horizontal) {
-                LazyHStack(spacing: 15) {
-                    ForEach(Array(list.reversed().enumerated()), id: \.element) { index, item in
-                        if index < 3 {
-                            NavigationLink {
-                                NavigationLazyView(ChartView(likedCoinIDs: $likedCoinIDs, id: item.id))
-                            } label: {
-                                favoriteItem(item)
+            if #available(iOS 17.0, *) {
+                ScrollView(.horizontal) {
+                    LazyHStack(spacing: 15) {
+                        ForEach(Array(list.reversed().enumerated()), id: \.element) { index, item in
+                            if index < 3 {
+                                NavigationLink {
+                                    NavigationLazyView(ChartView(likedCoinIDs: $likedCoinIDs, id: item.id))
+                                } label: {
+                                    favoriteItem(item)
+                                }
                             }
                         }
+                        moreItem()
                     }
-                    moreItem()
+                    .scrollTargetLayout()
                 }
+                .scrollIndicators(.hidden)
+                .scrollTargetBehavior(.viewAligned)
+            } else {
+                ScrollView(.horizontal) {
+                    LazyHStack(spacing: 15) {
+                        ForEach(Array(list.reversed().enumerated()), id: \.element) { index, item in
+                            if index < 3 {
+                                NavigationLink {
+                                    NavigationLazyView(ChartView(likedCoinIDs: $likedCoinIDs, id: item.id))
+                                } label: {
+                                    favoriteItem(item)
+                                }
+                            }
+                        }
+                        moreItem()
+                    }
+                }
+                .scrollIndicators(.hidden)
             }
-            .scrollIndicators(.hidden)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding()
@@ -136,10 +156,19 @@ private struct CoinSection: View {
             Text("Top15 Coin")
                 .bold()
                 .font(.title)
-            ScrollView(.horizontal) {
-                CoinGridView(list: list, category: .coin, likedCoinIDs: $likedCoinIDs)
+            if #available(iOS 17, *) {
+                ScrollView(.horizontal) {
+                    CoinGridView(list: list, category: .coin, likedCoinIDs: $likedCoinIDs)
+                        .scrollTargetLayout()
+                }
+                .scrollIndicators(.hidden)
+                .scrollTargetBehavior(.viewAligned)
+            } else {
+                ScrollView(.horizontal) {
+                    CoinGridView(list: list, category: .coin, likedCoinIDs: $likedCoinIDs)
+                }
+                .scrollIndicators(.hidden)
             }
-            .scrollIndicators(.hidden)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding()
@@ -155,10 +184,19 @@ private struct NFTSection: View {
             Text("Top7 NFT")
                 .bold()
                 .font(.title)
-            ScrollView(.horizontal) {
-                CoinGridView(list: list, category: .nft, likedCoinIDs: $likedCoinIDs)
+            if #available(iOS 17, *) {
+                ScrollView(.horizontal) {
+                    CoinGridView(list: list, category: .nft, likedCoinIDs: $likedCoinIDs)
+                        .scrollTargetLayout()
+                }
+                .scrollIndicators(.hidden)
+                .scrollTargetBehavior(.viewAligned)
+            } else {
+                ScrollView(.horizontal) {
+                    CoinGridView(list: list, category: .nft, likedCoinIDs: $likedCoinIDs)
+                }
+                .scrollIndicators(.hidden)
             }
-            .scrollIndicators(.hidden)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding()
